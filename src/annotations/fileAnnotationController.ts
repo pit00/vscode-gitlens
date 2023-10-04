@@ -553,19 +553,19 @@ export class FileAnnotationController implements Disposable {
 
 		switch (window.activeColorTheme.kind) {
 			case ColorThemeKind.Light:
-				addedColor = /* #48985D */ [72, 152, 93];
-				changedColor = /* #2090D3 */ [32, 144, 211];
-				deletedColor = /* #E51400 */ [229, 20, 0];
+				addedColor = /* #48985D */ [4, 159, 9];
+				changedColor = /* #2090D3 */ [157, 159, 9];
+				deletedColor = /* #E51400 */ [157, 6, 9];
 				break;
 			case ColorThemeKind.HighContrast:
-				addedColor = /* #487E02 */ [72, 126, 2];
-				changedColor = /* #1B81A8 */ [27, 129, 168];
-				deletedColor = /* #F14C4C */ [241, 76, 76];
+				addedColor = /* #049f09 */ [4, 159, 9];
+				changedColor = /* #9d9f09 */ [157, 159, 9];
+				deletedColor = /* #9d0609 */ [157, 6, 9];
 				break;
 			default:
-				addedColor = /* #487E02 */ [72, 126, 2];
-				changedColor = /* #1B81A8 */ [27, 129, 168];
-				deletedColor = /* #F14C4C */ [241, 76, 76];
+				addedColor = /* #487E02 */ [4, 159, 9];
+				changedColor = /* #1B81A8 */ [157, 159, 9];
+				deletedColor = /* #F14C4C */ [157, 6, 9];
 				break;
 		}
 
@@ -582,7 +582,7 @@ export class FileAnnotationController implements Disposable {
 				  )
 				: undefined,
 			gutterIconSize: 'contain',
-			overviewRulerLane: OverviewRulerLane.Left,
+			overviewRulerLane: OverviewRulerLane.Center,
 			overviewRulerColor: locations.includes('overview')
 				? new ThemeColor('editorOverviewRuler.addedForeground' satisfies CoreColors)
 				: undefined,
@@ -601,24 +601,35 @@ export class FileAnnotationController implements Disposable {
 				  )
 				: undefined,
 			gutterIconSize: 'contain',
-			overviewRulerLane: OverviewRulerLane.Left,
+			overviewRulerLane: OverviewRulerLane.Center,
 			overviewRulerColor: locations.includes('overview')
 				? new ThemeColor('editorOverviewRuler.modifiedForeground' satisfies CoreColors)
 				: undefined,
 		});
 
 		Decorations.changesLineDeletedAnnotation = window.createTextEditorDecorationType({
-			gutterIconPath: locations.includes('gutter')
-				? Uri.parse(
-						`data:image/svg+xml,${encodeURIComponent(
-							`<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18'><polygon fill='rgb(${deletedColor.join(
-								',',
-							)})' points='13,10 13,18 17,14'/></svg>`,
-						)}`,
-				  )
-				: undefined,
+            backgroundColor: locations.includes('line') ? `rgba(${deletedColor.join(',')},0.4)` : undefined,
+			isWholeLine: locations.includes('line') ? true : undefined,
+            gutterIconPath: locations.includes('gutter')
+            ? Uri.parse(
+                    `data:image/svg+xml,${encodeURIComponent(
+                        `<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18'><rect fill='rgb(${deletedColor.join(
+                            ',',
+                        )})' x='15' y='0' width='3' height='18'/></svg>`,
+                    )}`,
+              )
+            : undefined,
+			// gutterIconPath: locations.includes('gutter')
+			// 	? Uri.parse(
+			// 			`data:image/svg+xml,${encodeURIComponent(
+			// 				`<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18'><polygon fill='rgb(${deletedColor.join(
+			// 					',',
+			// 				)})' points='13,10 13,18 17,14'/></svg>`,
+			// 			)}`,
+			// 	  )
+				// : undefined,
 			gutterIconSize: 'contain',
-			overviewRulerLane: OverviewRulerLane.Left,
+			overviewRulerLane: OverviewRulerLane.Center,
 			overviewRulerColor: locations.includes('overview')
 				? new ThemeColor('editorOverviewRuler.deletedForeground' satisfies CoreColors)
 				: undefined,
@@ -647,7 +658,7 @@ export class FileAnnotationController implements Disposable {
 				gutterIconPath: gutterHighlightUri,
 				gutterIconSize: 'contain',
 				isWholeLine: true,
-				overviewRulerLane: OverviewRulerLane.Right,
+				overviewRulerLane: OverviewRulerLane.Center,
 				backgroundColor: locations.includes('line')
 					? new ThemeColor('gitlens.lineHighlightBackgroundColor' satisfies Colors)
 					: undefined,
